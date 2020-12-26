@@ -1,0 +1,163 @@
+* { margin: 0; padding: 0; }
+.home { overflow: hidden; font-size: 14px; font-family: Kaiti;width: 100%;height: 100%; }
+ul, li { list-style: none; }
+
+#desktop {
+  overflow: hidden;
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  width: 100%;
+  height: 100%;
+  /*background: url(../images/logo.pg) no-repeat;
+  background-size: cover;*/
+}
+/* 图标区 */
+#desktop .list {
+  position: absolute;
+  z-index: 1;
+  left: 25px;
+  top: 48%;
+/*  width: 100%;
+  height: 550px;*/
+  margin-top: -275px;
+}
+#desktop .list li {
+  position: absolute;
+  width: 100px;
+  height: 85px;
+  padding: 5px 0;
+  border-radius: 5px;
+  text-align: center;
+  cursor: default;
+}
+#desktop .list li:hover {
+  background: rgba(0,0,0,.1);
+}
+#desktop .list li.hover {
+  background: rgba(0,0,0,.2 );
+  box-shadow: 0 0 3px #000;
+}
+#desktop .list li a {
+  display: block;
+  cursor: default;
+}
+#desktop .list li img {
+  width: 60px;
+  height: 60px;
+  box-shadow: 0 0 2px rgba(0, 0, 0, .8);
+  border-radius: 8px;
+}
+#desktop .list li span {
+  display: block;
+  line-height: 20px;
+  padding-top: 4px;
+  color: #fff;
+}
+
+
+/* 框选 */
+#desktop .dragSelect {
+  visibility: hidden;
+  position: absolute;
+  z-index: 3;
+  background-color: rgba(0, 0, 0, .2);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, .1);
+}
+/* contextmenu */
+#desktop .contextmenu {
+  display: none;
+  position: absolute;
+  z-index: 3;
+  width: 180px;
+  padding: 5px 0;
+  border-radius: 4px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+  background-color: rgba(0, 0, 0, .3);
+}
+#desktop .contextmenu:before {
+  content: '';
+  display: inline-block;
+  position: absolute;
+  top: -7px;
+  left: 9px;
+  border-right: 7px solid transparent;
+  border-bottom: 7px solid rgba(0, 0, 0, .2);
+  border-left: 7px solid transparent;
+  border-bottom-color: rgba(0, 0, 0, .2);
+}
+#desktop .contextmenu .header {
+  padding: 8px 15px;
+  color: #fff;
+  border-bottom: 1px solid rgba(0, 0, 0, .8);
+}
+#desktop .contextmenu ul {
+  padding-bottom: 5px;
+  color: #fff;
+}
+#desktop .contextmenu ul li {
+  display: none;
+  padding: 6px 20px;
+  margin-top: 10px;
+  cursor: default;
+}
+#desktop .contextmenu ul li:hover {
+  background-color: rgba(0, 0, 0, .5);
+}
+#desktop .contextmenu ul li img {
+  display: inline-block;
+  padding-right: 10px;
+  width: 22px;
+  height: 22px;
+  vertical-align: middle;
+}
+/* 弹窗 */
+#desktop .dialog {
+  opacity: 100;
+  position: absolute;
+  left: 40%;
+  top:25%;
+  z-index: 1;
+  width:28%;
+  height: 38%;
+  background-color: rgba(0, 0, 0, .3);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+}
+#desktop .dialog .cont {
+  opacity: 1;
+  padding-top: 40px;
+  text-align: center;
+}
+#desktop .dialog input {
+  display: block;
+  border: none;
+  outline: none;
+  background: none;
+  width: 60%;
+  height: 40px;
+  padding: 0 10px;
+  line-height: 40px;
+  margin: 0 auto 10px;
+  border: 1px solid #000;
+  background-color: rgba(0, 0, 0, .6);
+  border-radius: 8px;
+  color: #ccc;
+  font-family: "Microsoft Yahei";
+}
+#desktop .dialog span {
+  display: inline-block;
+  width: 80px;
+  height: 40px;
+  margin: 0 6px;
+  line-height: 40px;
+  text-align: center;
+  border-radius: 6px;
+  color: #ccc;
+  background-color: rgba(0, 0, 0, .6);
+  cursor: default;
+}
+#desktop .dialog span:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+}
