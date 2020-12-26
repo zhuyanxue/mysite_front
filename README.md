@@ -1,6 +1,6 @@
 # mysite
 
-> A Vue.js project
+> mysite网站前台vue代码
 
 ## Build Setup
 
