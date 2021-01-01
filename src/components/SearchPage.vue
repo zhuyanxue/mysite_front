@@ -22,27 +22,35 @@
 		</div>	
     
     <!-- 搜索结果 -->
-    <div  id="result" style="margin-top:5%;margin-left:13%;margin-right:1%;margin-bottom:5%;font-size:1.3em">
-
-      <div v-show="haveData" v-for="(detail,index) in searchResults" :key="index" style="margin-top:2%">
-        <div>
-        <el-button size="small" @click="seeDetail(index)" style="margin-top:-50" type="primary" round>具体</el-button>
+    <div  id="result" style="margin-top:5%;margin-left:13%;margin-right:1%;margin-bottom:20%;font-size:1.3em">
+      <div>
+      <!--  <li v-for="item in admission.slice((this.currentPage-1)*this.pageSize,this.currentPage*this.pageSize)"> -->
+      <div v-show="haveData" v-for="(detail,index) in searchResults.slice((this.currentPage-1)*this.pageSize,this.currentPage*this.pageSize)" :key="index" style="margin-top:2%">
+      <div>
+        <el-button size="small" @click="seeDetail(index)" style="margin-top:-50" type="primary" round>
+          <span style="color:black;font-size:1.3em" v-show="isShow==index?true:false">
+            {{tips}}
+          </span>
+          <span v-show="isShow==index?false:true">
+            具体
+          </span>
+        </el-button>
         <i class="el-icon-d-arrow-right"></i>
         <span style=" cursor:pointer; "><a @click="goHome">
         <span>应用：</span>
-        <span  style="color:#409effcf;"><u>{{detail.minFrame.block.frame.app.appName}}</u></span>
+        <span><u>{{detail.minFrame.block.frame.app.appName}}</u></span>
         </a></span>
 
         <el-divider direction="vertical"></el-divider>
         <span style=" cursor:pointer; "><a  @click="goFramework(detail.minFrame.block.frame.app.id,detail.minFrame.block.frame.id)">
          <span>模块：</span>
-        <span  style="color:#409effcf"><u>{{detail.minFrame.block.title}}</u></span>
+        <span ><u>{{detail.minFrame.block.title}}</u></span>
         </a></span>
 
         <el-divider direction="vertical"></el-divider>
         <span style=" cursor:pointer; "><a @click="goDetail(detail.minFrame.block.id,detail.minFrame.block.title,detail.minFrame.id)">
-         <span>步骤：</span>
-        <span  style="color:#409effcf"><u>{{detail.title}}</u></span>
+         <span>主题：</span>
+        <span  v-html="detail.title"><u></u></span>
         </a></span>
         </div>
         <div v-show="isShow==index?true:false" style="margin-left:3%;margin-top:0%" class="ql-editor"  v-html="detail.details">
@@ -50,11 +58,29 @@
         </div>
       </div>
 
+       <!-- 分页 -->
+      <div v-if="haveData" align="center" style="margin-right:15%;margin-top:3%;font-family: MicrosoftJhengHei;z-index: 75;">
+        <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :page-sizes="[6, 12, 20, 100]"
+        :page-size="pageSize"  
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="searchResults.length">
+      </el-pagination>
+      </div>
+        
+      </div>
+
+
       <div v-if="!haveData" style="margin-top:2%">
         <span>您好，未查到相关数据！</span>
       </div>
 
+    
     </div>
+   
   </div>
 </template>
 
@@ -74,12 +100,27 @@ export default {
   data () {
     return {
       keyWords:'',
-      searchResults:[],
+      searchResults:[],//数据结果
       haveData:false,
-      isShow:-1,
+      isShow:0,
+      tips:'隐藏',
+
+
+      //分页设置
+       currentPage:1, //初始页
+       pageSize:6,    //    每页的数据
+
     }
   },
   methods:{
+      //
+      handleSizeChange(size){
+         this.pageSize = size;
+      },
+      handleCurrentChange(currentPage){
+        this.currentPage = currentPage;
+      },
+
       goHome(){
         this.$router.push({path:'/'}); 
       },
@@ -104,6 +145,7 @@ export default {
           }); 
       },
       seeDetail(index){//处理，只显示对应的内容
+        this.tips="隐藏";
         this.isShow=index;
       },
       searchResult(){
@@ -121,6 +163,7 @@ export default {
           var self=this;
           this.axios.get(url,{}).then((res)=>{
               if(res.data.code=="0000"){
+                 this.isShow=0;
                   this.haveData=true;
                   this.searchResults=res.data.data;
                  // console.log(this.searchResults);
@@ -174,6 +217,5 @@ export default {
 </script>
 
 <style scoped>
-
 
 </style>

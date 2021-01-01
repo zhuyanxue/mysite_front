@@ -85,12 +85,12 @@
               </div>
             </div>
 
-            <!-- 步骤 -->
+            <!-- 主题 -->
             <div>
               <div v-for="(detail,indexs) in allDetails" :key="indexs">
               <el-card  class="box-card" shadow="hover" style="margin-top:3%">
                 <div slot="header" class="clearfix">
-                  <span>步骤{{indexs+1}}、<b>{{detail.title}}</b></span>
+                  <span>主题{{indexs+1}}：<b>{{detail.title}}</b></span>
                     <span v-if="admin" style="float:right;cursor:pointer;" >
                     <i @click.stop="editDetail(detail)" class="el-icon-edit"></i>  &nbsp;&nbsp;&nbsp;
                     <i @click.stop="deleteDetail(detail)" class="el-icon-delete"></i>
@@ -159,7 +159,7 @@
 
               <!--<el-card  class="box-card" shadow="hover" style="margin-top:3%">
                 <div slot="header" class="clearfix">
-                  <span><b>步骤2</b></span>
+                  <span><b>主题2</b></span>
                     <span v-if="admin" style="float:right;cursor:pointer;" >
                     <i @click.stop="newbmin=true" class="el-icon-edit"></i>  &nbsp;&nbsp;&nbsp;
                     <i @click.stop="newbmin=true" class="el-icon-delete"></i>
@@ -299,13 +299,13 @@
   center
   style="margin-top:-5%;margin-left:3%">
   <div slot="title">
-    <!--<span>新增步骤</span> -->
-    <el-button @click="clearAll" plain>新增步骤<span style="color:#409effcf"><i class="el-icon-eleme"></i>点击清空</span></el-button>
+    <!--<span>新增主题</span> -->
+    <el-button @click="clearAll" plain>新增主题<span style="color:#409effcf"><i class="el-icon-eleme"></i>点击清空</span></el-button>
   </div>
   <div>
     <span>
-      <el-input placeholder="请输入步骤名称(57字以内)"  maxlength="57" v-model="detailNewTitle">
-        <span slot="prepend">步骤名</span>
+      <el-input placeholder="请输入主题名称(57字以内)"  maxlength="57" v-model="detailNewTitle">
+        <span slot="prepend">主题</span>
       </el-input>
     </span>
     <div style="height:405px">
@@ -424,7 +424,7 @@ export default {
       detailEditId:0,
 
       deleteMsg:'',
-      //新增步骤
+      //新增主题
       detailTitle:'久荣',
       detailDialogVisible:false,
       detailNewTitle:'',
@@ -432,7 +432,7 @@ export default {
       imgOrignAll:[],
 
       showVideo:false,
-      active:3, //步骤条控制
+      active:3, //主题条控制
       blockTitle:'变量',
       keywords:'',
       btn_name:'隐',
@@ -518,7 +518,7 @@ export default {
       for(var i=0;i<imgs.length;i++){
           submitImgs.push(imgs[i].src);
     };
-    ////console.log(submitImgs);
+    //////console.log(submitImgs);
     this.deleImgs(submitImgs);
     next(); 
   },
@@ -715,8 +715,8 @@ export default {
       var url="/newRealNote";
       var did=localStorage.getItem("did"); 
       var param={content:this.newNoteContent,uid:parseInt(this.userId),did:parseInt(did)};
-     // //console.log(this.userId);
-     // //console.log(did);
+     // ////console.log(this.userId);
+     // ////console.log(did);
       var self=this;
       this.axios.post(url,qs.stringify(param)).then((res)=>{
         if(res.data.code=="0000"){
@@ -742,16 +742,16 @@ export default {
 
     },
 
-    //删除详情步骤
+    //删除详情主题
     deleteDetail(param){
-      this.$confirm('此操作将永久删除改步骤, 是否继续?', '提示', {
+      this.$confirm('此操作将永久删除改主题, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
        this.contentContainerDelete=param.details;
       var allImg=document.getElementById("htmlContainerDelete").getElementsByTagName("img");
-      ////console.log(allImg);
+      //////console.log(allImg);
       var deleteImg=[];
       for(var i=0;i<allImg.length;i++){
           deleteImg.push(allImg[i].src);
@@ -765,13 +765,13 @@ export default {
         if(res.data.code=="0000"){
         
           if(self.deleteMsg=="success"){
-              self.deleteMsg="已经删除步骤所有图片";
+              self.deleteMsg="已经删除主题所有图片";
           }else{
-              self.deleteMsg="但未删除步骤包含的图片";
+              self.deleteMsg="但未删除主题包含的图片";
           };
            this.$message({
             type: 'success',
-            message: "已经删除步骤，"+self.deleteMsg
+            message: "已经删除主题，"+self.deleteMsg
           });
         }
       }).catch(function (error) {
@@ -792,12 +792,12 @@ export default {
       //转换
       
     },
-    //编辑详情步骤
+    //编辑详情主题
     editDetail(param){
       //判断是否有新增内容
       if(this.detailNewContent!=""||this.detailNewTitle!=""){
         this.$message({
-              message: "进行步骤编辑之前，请先将保存新增的内容",
+              message: "进行主题编辑之前，请先将保存新增的内容",
               type: 'warning',
               center: true,
               duration:2500
@@ -857,7 +857,7 @@ export default {
       var self=this;
       this.axios.put(url,qs.stringify(param)).then((res)=>{
         if(res.data.code=="0000"){
-          ////console.log("消息="+self.deleteMsg);
+          //////console.log("消息="+self.deleteMsg);
           if(this.deleteMsg=="success"){
             this.deleteMsg="修改成功，且已删除废弃图片";
           }else{
@@ -908,7 +908,7 @@ export default {
       var self=this;
       this.axios.post(url,qs.stringify(param)).then((res)=>{
         if(res.data.code=="0000"){
-          ////console.log("消息="+self.deleteMsg);
+          //////console.log("消息="+self.deleteMsg);
           if(this.deleteMsg=="success"){
             this.deleteMsg="新增详情成功，且已删除废弃图片";
           }else{
@@ -941,7 +941,7 @@ export default {
         });}else{
           if(this.detailNewTitle==''){
             this.$message({
-              message: "步骤标题不能为空",
+              message: "主题标题不能为空",
               type: 'warning',
               center: true,
               duration:2500
@@ -950,7 +950,7 @@ export default {
           };
           if(this.detailNewContent==''){
             this.$message({
-              message: "步骤内容不能为空",
+              message: "主题内容不能为空",
               type: 'warning',
               center: true,
               duration:2500
@@ -968,7 +968,7 @@ export default {
 
     //删除废弃图片
     deleImgs(params){
-      ////console.log(params);
+      //////console.log(params);
       this.deleteMsg='';
       var url="/detaleOutImgs";
       var param=params;
@@ -1022,11 +1022,11 @@ export default {
     //新增详情
     newDetail(){
       if(this.defaultMinFrameId!=''){
-         console.log("导航？"+this.defaultMinFrameId);
+         //console.log("导航？"+this.defaultMinFrameId);
          this.addedit=true;
          this.detailDialogVisible=true;
       }else{
-         console.log("导航？"+this.defaultMinFrameId);
+         //console.log("导航？"+this.defaultMinFrameId);
         this.$message({
 				message: "还未添加所属小导航",
 				type: 'warning',
@@ -1039,17 +1039,17 @@ export default {
     //点击
     getDetailcontent(param){
       this.changeMinFrameId=param;
-      ////console.log("点击得到的值："+param);
+      //////console.log("点击得到的值："+param);
 
       //进度变化
       if(this.progress<100){
         //是否重复元素
        
         //是否相等
-        ////console.log(this.takeAtr);
+        //////console.log(this.takeAtr);
         if(this.takeAtr.sort().toString()!=this.orignAtr.sort().toString()){
           this.progress=this.progress+this.one_value;
-          //console.log(this.progress);
+          ////console.log(this.progress);
           this.updateProgress(this.progress);
         };
          if(this.takeAtr.indexOf(param)==-1){
@@ -1057,7 +1057,7 @@ export default {
         };
       }else{
         this.progress=100;
-        //console.log("大于100时,不再上传保存："+this.progress);
+        ////console.log("大于100时,不再上传保存："+this.progress);
         //this.updateProgress(this.progress);
       }
       this.showProgress=Math.floor(this.progress);
@@ -1085,7 +1085,7 @@ export default {
             
           }else{
             this.needEditName=res.data.data;
-            ////console.log();
+            //////console.log();
             self.$message({
               message: res.data.message,
               type: 'error',
@@ -1213,7 +1213,7 @@ export default {
         if(self.defaultMinFrameId==''){
           self.defaultMinFrameId=res.data.data[0].id.toString();
           self.changeMinFrameId=self.defaultMinFrameId;
-          //console.log("找到："+self.defaultMinFrameId);
+          ////console.log("找到："+self.defaultMinFrameId);
         };
         self.getAllDetails();
         //进度条计算所需值
@@ -1223,8 +1223,8 @@ export default {
         if(self.allMinFrame.length>0){
           var basic=this.allMinFrame.length; 
           self.one_value=100/basic;
-          //console.log("基本值："+this.one_value);
-          //console.log("得到的原始数组："+this.orignAtr);
+          ////console.log("基本值："+this.one_value);
+          ////console.log("得到的原始数组："+this.orignAtr);
         }
       }
       }).catch(function (error) {
@@ -1234,13 +1234,13 @@ export default {
     getAllDetails(){
       var self=this;
       var minId='';//所属小导航
-      //console.log("值"+self.defaultMinFrameId);
+      ////console.log("值"+self.defaultMinFrameId);
       if(self.changeMinFrameId!=''){
         minId=self.changeMinFrameId;
       }else{
          minId=self.defaultMinFrameId;
       };
-      //console.log("参数:"+minId);
+      ////console.log("参数:"+minId);
       var url="/getAllDetails?mfid="+parseInt(minId);
       
       this.axios.get(url,{}).then((res)=>{
@@ -1385,16 +1385,16 @@ export default {
 }
 
 /* 上传样式更改 */
-    /deep/ .el-list-enter-active,
-    /deep/ .el-list-leave-active {
+  div  /deep/ .el-list-enter-active,
+  div  /deep/ .el-list-leave-active {
       transition: none;
     }
  
-    /deep/ .el-list-enter,
-    /deep/ .el-list-leave-active {
+  div  /deep/ .el-list-enter,
+  div  /deep/ .el-list-leave-active {
       opacity: 0;
     }
-    /deep/ .el-upload-list {
+  div  /deep/ .el-upload-list {
       height: 40px;
     }
 
