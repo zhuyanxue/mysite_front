@@ -78,7 +78,7 @@
 </template>
 
 <script>
-import SIdentify from './identify.vue'
+import SIdentify from './Mdentify.vue'
 //引入axios
 import Vue from 'vue'
 import axios from 'axios'

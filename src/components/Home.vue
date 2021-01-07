@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home" v-cloak>
     <div  id="desktop"  :style="{backgroundImage: 'url(' + coverImgUrl + ')',backgroundSize:'cover',backgroundRepeat: 'no-repeat'}">  
      <ul  class="list" style="width:100%;height:100%;">
        <li v-for="(app,index) in allApps" :key="index">
@@ -22,6 +22,7 @@
         <li data-value="search"><img src="../assets/images/search.png" alt="图标未加载">全站搜</li>
         <li data-value="allScreen"><img src="../assets/images/switch.png" alt="图标未加载">切换壁纸</li>
         <li data-value="refresh"><img src="../assets/images/refresh.png" alt="图标未加载">刷新</li>
+        <li data-value="exit"><img src="../assets/images/exit.png" alt="图标未加载">注销</li>
         <li data-value="del"  v-if="admin"><img src="../assets/images/trash.png" alt="图标未加载">删除</li>
         <li data-value="suo"  v-if="admin"><img src="../assets/images/suo.png" alt="图标未加载">{{suoName}}</li>
       </ul>
@@ -294,9 +295,10 @@ export default {
       var token=localStorage.getItem("token");
       var now=new Date();
       var diff=now.getTime()-parseInt(haveToken);
-      var hhDiff=diff/(3600*1000);
+      var hhDiff=diff/(3600*1000*24);
       //console.log(haveToken+"出错在哪？"+token+"判断值："+hhDiff);
-      if(hhDiff>2){
+      if(hhDiff>14){
+        //7天有效期。
         //每次访问，清空缓存
          localStorage.removeItem('token');
          localStorage.removeItem('haveToken');
@@ -335,6 +337,32 @@ export default {
 
   },
   methods:{
+    exitLogin(){
+       this.$confirm('此操作将退出登陆状态, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+          center:true,
+          customClass:'defineClass'
+        }).then(() => {
+          localStorage.removeItem('token');
+          localStorage.removeItem('haveToken');
+          localStorage.removeItem('userId');
+          localStorage.removeItem('userRole');
+          localStorage.removeItem('changeId');
+          localStorage.removeItem('did');
+          this.$router.push({path:'/login'}); 
+          this.$message({
+            type: 'success',
+            message: '已退出，请重新登录!'
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消操作'
+          });          
+        });
+    },
     isAdmin(){
        if(this.userRoleName=="管理员"){
          this.admin=true;
@@ -644,7 +672,7 @@ export default {
         });
     },
     saveApp(){
-      var url="/saveApp";
+      var url="/saveApp?"+Math.random();
       var param={appName:this.appname,img:this.imgurl,userId:this.userId};
       var self=this;
       this.axios.post(url, qs.stringify(param)).then((response) => {
@@ -679,7 +707,7 @@ export default {
         });
     },
     getAllApp(){
-      var url="/getAllAapp";
+      var url="/getAllAapp?"+Math.random();
       var self=this;
       this.axios.get(url,{}).then((response)=>{
         if(response.data.code=="0000"){
@@ -865,6 +893,7 @@ export default {
          remessage="已解锁应用";
       }
 
+
       var url="/suoapp?id="+id;
       var self=this;
       this.axios.post(url, {}).then((res)=>{
@@ -1010,12 +1039,16 @@ export default {
                   case 'search'://搜索
                      that.searchDialog();
                   break;
+
+                  case 'exit'://退出登录
+                    that.exitLogin();
+                  break;
                 }
               };
             }
     },
 
-      //初始化桌面jq
+//初始化桌面jq
 initDesktop(){
     var that=this;
     NProgress.configure({ showSpinner: false });
@@ -1031,7 +1064,7 @@ initDesktop(){
         appColumn: function () {}
       };
       
-      // 竖向排列
+      // 竖向排列,应用排列
       ;(function (window, undefined) {
         publicFn.appColumn = function () {
           var appItem = appList.querySelectorAll('li');
@@ -1135,6 +1168,7 @@ initDesktop(){
   height: 20px;
 }
 
+
 .uploadimg{
   display: block;
   border: none;
@@ -1189,4 +1223,14 @@ filter:progid:DXImageTransform.Microsoft.Shadow(Strength=4,Direction=135,Color='
     div  /deep/ .el-upload-list {
       height: 40px;
     }
+
+</style>
+<style>
+.defineClass{
+    margin-top:-38%;
+   
+    }
+  [v-cloak] {
+display: none;
+}
 </style>

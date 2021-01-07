@@ -65,7 +65,7 @@ export default {
         if(this.changeType=='password'){           
             this.changeType='text';
             this.iconeye='el-icon-remove-outline el-input__icon';
-             console.log("0000");
+             //console.log("0000");
         }else{      
           this.changeType='password'; 
           this.iconeye='el-icon-view el-input__icon';          
@@ -111,7 +111,7 @@ export default {
             //存入token
             self.$root.setToken(response.data.message);
             axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$root.getToken() ;
-            console.log(response.data.message);
+            //console.log(response.data.message);
             localStorage.setItem("userId",response.data.data.id);
             localStorage.setItem("userRole",response.data.data.role);
             //登录成功。记录拿到token的时间

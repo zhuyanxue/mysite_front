@@ -2,7 +2,7 @@
   <div class="resultSearch" style="overflow:auto;font-family: Kaiti;">
     <div align="center">
        <div style="margin-top:2%">
-        <img src="../assets/img/logo.png" width="6%"/>
+        <img @click="toHOmePage" src="../assets/img/logo.png" width="6%"/>
         <div style="margin-top:1%;font">
           <span style="font-size:1.4em;color:green;">
               <span style="border-radius: 50%; margin-top:2.5px;margin-right:-5px;   height: 20px;    width: 20px;    display: inline-block;    background: #f30303;      vertical-align: top;">  
@@ -113,6 +113,9 @@ export default {
     }
   },
   methods:{
+     toHOmePage(){
+		  this.$router.push({path:'/'});
+	  },
       //
       handleSizeChange(size){
          this.pageSize = size;
@@ -188,8 +191,8 @@ export default {
       var token=localStorage.getItem("token");
       var now=new Date();
       var diff=now.getTime()-parseInt(haveToken);
-      var hhDiff=diff/(3600*1000);
-      if(hhDiff>2){
+      var hhDiff=diff/(3600*1000*24);
+      if(hhDiff>14){
          localStorage.removeItem('token');
          localStorage.removeItem('haveToken');
          localStorage.removeItem('userId');

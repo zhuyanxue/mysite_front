@@ -1,5 +1,6 @@
 <template>
   <div class="detail" style="overflow:auto">
+    <div title="Go now !" @click="toHOmePage" class="logoset" style="float:right;" >Home</div>
   <div  align="center">
 		<div class="search">
 			<el-input v-model="keywords" @keyup.enter.native="searchResult" placeholder="请输入搜索关键字">
@@ -10,7 +11,7 @@
   <el-divider></el-divider>
     <el-container>
       <el-header style="margin-top:0%;margin-left:3%;margin-right:3%">
-        <el-progress :text-inside="true" :stroke-width="24" :percentage="showProgress" status="success"></el-progress>
+        <el-progress v-if="false" :text-inside="true" :stroke-width="24" :percentage="showProgress" status="success"></el-progress>
       </el-header>
 
       <el-main  v-bind:style="{minHeight: Height+'px'}">
@@ -458,7 +459,7 @@ export default {
       //minFrame相关
       blockId:0,
       progress:0,//进度条
-      showProgress:0,
+      showProgress:100,
       defaultMinFrameId:'',//默认选中,计算得出。
       changeMinFrameId:'',//动态值，由点击赋值。
       minFrameTitle:'',
@@ -529,8 +530,8 @@ export default {
       var token=localStorage.getItem("token");
       var now=new Date();
       var diff=now.getTime()-parseInt(haveToken);
-      var hhDiff=diff/(3600*1000);
-      if(hhDiff>2){
+      var hhDiff=diff/(3600*1000*24);
+      if(hhDiff>14){
          localStorage.removeItem('token');
          localStorage.removeItem('haveToken');
          localStorage.removeItem('userId');
@@ -560,9 +561,10 @@ export default {
     this.showProgress=Math.floor(this.progress);
     this.changeMinFrameId=this.$route.query.defaultminid;
     this.isAdmin();
+
+    this.getShowFooter();
     this.getMinFrame();
     this.getVideo();
-     this.getShowFooter();
     
     this.userId=parseInt(localStorage.getItem("userId"));
    
@@ -583,9 +585,12 @@ export default {
     editor
   },
   methods:{
+    toHOmePage(){
+		  this.$router.push({path:'/'});
+	  },
     getShowFooter(){
 		//拿到状态为1的底部
-		var url="/getFooterOne";
+		var url="/getFooterOne?"+Math.random() ;
 		var self=this;
 		this.axios.get(url,{}).then((res)=>{
 			if(res.data.code=="0000"){
@@ -1073,7 +1078,7 @@ export default {
     },
     //视频操作
     getVideo(){
-      var url="/getCanVideo?bid="+this.blockId;
+      var url="/getCanVideo?bid="+this.blockId+"&timestap="+Math.random() ;
       var self=this;
       axios.get(url,{}).then((res)=>{
         if(res.data.code=="0000"){
@@ -1205,7 +1210,7 @@ export default {
 
 
     getMinFrame(){
-    var url="/getMinFrame?bid="+this.blockId;
+    var url="/getMinFrame?bid="+this.blockId+"&timestap="+Math.random();
     var self=this;
     this.axios.get(url,{}).then((res)=>{
       if(res.data.code=='0000'){
@@ -1241,7 +1246,7 @@ export default {
          minId=self.defaultMinFrameId;
       };
       ////console.log("参数:"+minId);
-      var url="/getAllDetails?mfid="+parseInt(minId);
+      var url="/getAllDetails?mfid="+parseInt(minId)+"&timestap="+Math.random() ;
       
       this.axios.get(url,{}).then((res)=>{
         if(res.data.code=="0000"){
@@ -1382,6 +1387,17 @@ export default {
 .search{
   width:50%;
   margin-top:3%; 
+}
+.logoset{
+  margin-top: 3%;
+  margin-right:4.7% ;
+  font-size: 1.5em;
+  cursor:pointer;
+  color: rgba(45, 128, 128);
+}
+.logoset:hover{
+  color: rgba(0, 162, 255, 0.829);
+  text-decoration:underline;
 }
 
 /* 上传样式更改 */

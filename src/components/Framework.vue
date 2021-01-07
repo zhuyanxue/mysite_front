@@ -1,10 +1,10 @@
 <template>
   <div id="framework" style="overflow:auto">
 	<div class="logo">
-	<div @click="usermanager" style="float:left;margin-left:1%"><img src="../assets/img/logo.png" width="55%"/></div>
+	<div @click="toHOmePage" style="float:left;margin-left:1%"><img src="../assets/img/logo.png" width="55%"/></div>
 	<div  style="float:right;margin-right:2%">
 		<span @click="tel_me" style="font-size:1.3em;cursor:pointer;">联系我</span></div>
-		<span style="font-size:2.1em;margin-left:32%">{{myAppName}}</span>
+		<span @click="usermanager" style="font-size:2.1em;margin-left:32%">{{myAppName}}</span>
 	</div>
 	<div>
     <el-container style="clear:both">
@@ -369,9 +369,9 @@ export default {
       var token=localStorage.getItem("token");
       var now=new Date();
       var diff=now.getTime()-parseInt(haveToken);
-	  var hhDiff=diff/(3600*1000);
+	  var hhDiff=diff/(3600*1000*24);
 	  // //console.log("间隔时间"+hhDiff);
-      if(hhDiff>2){
+      if(hhDiff>14){
 		 localStorage.removeItem('token');
 		 localStorage.removeItem('haveToken');
 		  localStorage.removeItem('userId');
@@ -410,10 +410,13 @@ export default {
     window.onresize = ()=> {this.Height = document.documentElement.clientHeight -230}
   },
   methods:{
+	  toHOmePage(){
+		  this.$router.push({path:'/'});
+	  },
 	  //底部
 	  newFooter(){
 		var self=this;
-		this.$prompt('请输入邮箱', '提示', {
+		this.$prompt('请输入要显示的页脚信息', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
         }).then(({ value }) => {
@@ -725,7 +728,7 @@ export default {
 			  fid=this.changeFrameId;
 		  }
 		  //////console.log("打印："+this.defaultFrame);
-		  var url="/defaultGetBlock?fid="+parseInt(fid) ;
+		  var url="/defaultGetBlock?fid="+parseInt(fid)+"&timestap="+Math.random() ;
 		  var self=this;
 		  this.axios.get(url,{}).then((res)=>{
 			  if(res.data.code=="0000"){

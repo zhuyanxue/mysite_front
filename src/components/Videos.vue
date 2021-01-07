@@ -162,8 +162,8 @@ export default {
       var token=localStorage.getItem("token");
       var now=new Date();
       var diff=now.getTime()-parseInt(haveToken);
-      var hhDiff=diff/(3600*1000);
-      if(hhDiff>2){
+      var hhDiff=diff/(3600*1000*24);
+      if(hhDiff>14){
          localStorage.removeItem('token');
          localStorage.removeItem('haveToken');
          localStorage.removeItem('userId');

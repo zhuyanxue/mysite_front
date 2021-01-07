@@ -44,7 +44,7 @@ Contextmenu.prototype = {
 
   inital: function () {
     if (this.obj.nodeType === 9) {
-      this.renderValue = {create: true, edit: false, refresh: true, del: false, open:false,allScreen:true,search:true};
+      this.renderValue = {create: true, edit: false, refresh: true, del: false, open:false,allScreen:true,search:true,exit:true};
     } else {
       this.renderValue = {create: false, edit: true, refresh: false, del: true,open:true,rollback:false,allScreen:false,rollback:true,suo:true};
     }

@@ -2,7 +2,7 @@
   <div class="detail" style="overflow:auto;font-family: Kaiti;" >
      <div align="center">
        <div style="margin-top:2%">
-        <img src="../assets/img/logo.png" width="6%"/>
+        <img @click="toHOmePage" src="../assets/img/logo.png" width="6%"/>
         <div style="margin-top:3%;font">
           <span style="font-size:1.4em;color:green;">
               <span style="border-radius: 50%; margin-top:2.5px;margin-right:-5px;   height: 20px;    width: 20px;    display: inline-block;    background: #f30303;      vertical-align: top;">  
@@ -80,6 +80,7 @@ export default {
   name: 'usermanager',
   data () {
     return {
+     loading:false,
      keyName:'',
      userList:[],
      tableData:false,
@@ -92,8 +93,8 @@ export default {
       var token=localStorage.getItem("token");
       var now=new Date();
       var diff=now.getTime()-parseInt(haveToken);
-      var hhDiff=diff/(3600*1000);
-      if(hhDiff>2){
+      var hhDiff=diff/(3600*1000*24);
+      if(hhDiff>14){
          localStorage.removeItem('token');
          localStorage.removeItem('haveToken');
           localStorage.removeItem('userId');
@@ -116,10 +117,14 @@ export default {
     axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$root.getToken() ;
   },
   methods:{
+     toHOmePage(){
+		  this.$router.push({path:'/'});
+	  },
     //拿到搜索到的用户列表
     getSearchNameList(){
       var url="/searchResultName?key="+this.keyName;
       var self=this;
+      self.loading=true;
       this.axios.get(url,{}).then((res)=>{
         if(res.data.code=="0000"){
           self.userList=res.data.data;
@@ -140,6 +145,7 @@ export default {
               duration:2500
             });
       });
+      this.loading=false;
     },
     handleRole(id,role,name){
      // alert("此:id"+id+",角色:"+role);
