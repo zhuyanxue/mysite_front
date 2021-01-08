@@ -258,6 +258,7 @@
     title="上传解读视频"
     :visible.sync="videoVisible"
     width="30%" 
+    :show-close="false" 
     center>
     <div align="center">
       <div style="margin-bottom:5%">
@@ -283,7 +284,12 @@
               :on-success="handleSuccess"
               :auto-upload="false">
               <video style="height:100%;width:100%" slot="file" :src="file.url" slot-scope="{file}"/>
-              <i class="el-icon-plus"></i>
+              <el-progress v-if="videoFlag" type="circle" :percentage="videoUploadPercent" style="margin-top:8%"></el-progress>
+              
+              <i  v-if="!videoFlag" class="el-icon-plus"></i>
+
+              <!-- 视频上传进度条 -->
+
              <!-- <el-button  type="info" round>选择视频文件</el-button>-->
                <div slot="tip" class="el-upload__tip">每次只能上传一个视频文件，且不超过3GB！</div>
         </el-upload>
@@ -405,6 +411,8 @@ Vue.use(VueAxios, axios)
 export default {
   data () {
     return {
+      videoUploadPercent:0,
+      videoFlag:false,
       //笔记
       newNoteDialogVisible:false,
       newNoteContent:'',
@@ -1134,7 +1142,9 @@ export default {
       }
     },
      beforeprogressUpload(event, file, fileList){
-      let loadProgress = Math.floor(event.percent) //这就是当前上传的进度
+       this.videoFlag=true;
+      //let loadProgress = Math.floor(event.percent) //这就是当前上传的进度
+      this.videoUploadPercent=parseInt(file.percentage.toFixed(0), 10);
     },
     handleChange(file, fileList){
        if (fileList.length > 0) {
@@ -1154,6 +1164,8 @@ export default {
       }
     },
     cancelVideo(){
+      this.$refs.upload.abort();
+      this.videoFlag=false;
       this.videoVisible=false;
       this.fileList=[];
       this.videoName="";
@@ -1165,6 +1177,7 @@ export default {
          this.videoUrl=res.data;
          this.videoName=res.data.replace('http://localhost:9090/mysite/files/','');
          this.saveVideo();
+         this.videoFlag=false;
        }else{
          this.$message({
               message: res.message,

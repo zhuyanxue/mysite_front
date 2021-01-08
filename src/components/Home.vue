@@ -121,6 +121,7 @@
         width="25%"
         title="上传壁纸"
         :visible.sync="uploadDeskVisible"
+        :show-close="false" 
         append-to-body center>
         <div>
            <div align="center">
@@ -143,7 +144,7 @@
           </div>
         </div>
         <span slot="footer" class="dialog-footer">
-          <span class="deskimgSpan" @click="uploadDeskVisible=false">取 消</span>
+          <span class="deskimgSpan" @click="canselDeskImg">取 消</span>
           <span class="deskimgSpan" type="primary" style="background-color:#47bb8f" @click="uploadDeskImg()">上传</span>
         </span>
      </el-dialog>
@@ -386,6 +387,10 @@ export default {
           });
       }
     },
+    canselDeskImg(){
+      this.$refs.DeskUpload.abort();
+      uploadDeskVisible=false
+    },
     //切换壁纸
     seeAllDesktopImg(){
       this.getAllDeskImg();
@@ -614,6 +619,7 @@ export default {
      
     },
     cancelAdd(){
+      this.$refs.upload.abort();
       this.add=false;
       this.fileList=[];
       this.appname='';
@@ -863,6 +869,7 @@ export default {
         });
     },
     cancelEdit(){
+      this.$refs.editUpload.abort();
       this.editShow=false;
       this.editName="";
       this.editList=[{name:'',url:''}];

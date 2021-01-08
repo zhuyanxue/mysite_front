@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Login from '@/components/Login.vue'
-import Home from '@/components/Home.vue'
+//import Login from '@/components/Login.vue'
+//import Home from '@/components/Home.vue'
 import Framework from '@/components/Framework.vue'
 import Detail from '@/components/Detail.vue'
 import Video from '@/components/Videos.vue'
@@ -12,6 +12,10 @@ import UserManager from '@/components/UserManager.vue'
 import Footers from '@/components/AllFooter.vue'
 
 Vue.use(Router)
+
+//首页面路由懒加载
+const Login = resolve => require(['@/components/Login.vue'], resolve)
+const Home = resolve => require(['@/components/Home.vue'], resolve)
 
 //解决路由报错问题
 const originalPush = Router.prototype.push

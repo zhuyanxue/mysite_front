@@ -13,8 +13,11 @@ export default {
     }
   },
   methods:{
-    prelod(){
-      let imgs = [
+    
+  },
+  beforeCreate(){
+    //进行图片预加载
+    let imgs = [
          require('./assets/img/4.jpg'),
          require('./assets/img/2.jpg'),
          require('./assets/img/3.jpg'),
@@ -28,14 +31,9 @@ export default {
           
         }
       }
-
-    }
-  },
-  created: function(){
   },
   mounted(){
-    //进行图片预加载
-    this.prelod();
+    
     //终止加载动画 
     document.body.removeChild(document.getElementById('Loading'));
   }
